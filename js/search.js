@@ -10,11 +10,12 @@ function renderVenues(list) {
     venueList.innerHTML = "<p>No venues found.</p>";
   }
 
-  list.forEach(function (v) {
+    list.forEach(function (v) {
     const card = document.createElement("article");
     card.className = "venue-card";
     card.innerHTML =
       "<h3>" + v.name + "</h3>" +
+      "<p>" + v.parentVenue + "</p>" +
       "<p>" + v.location + " | " + v.category + "</p>" +
       "<p>Score: " + v.score + "/100 | Rating: " + v.rating + "</p>";
     venueList.appendChild(card);
