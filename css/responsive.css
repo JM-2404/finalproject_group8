@@ -1,0 +1,310 @@
+
+/* =========================================
+   ACCESSABLE - RESPONSIVE STYLES
+========================================= */
+
+/* TABLETS AND SMALL LAPTOPS */
+
+@media (max-width: 1000px) {
+
+    .hero-content {
+        gap: 35px;
+    }
+
+    .hero-text h1 {
+        font-size: 48px;
+    }
+
+    .hero-image-wrapper {
+        height: 390px;
+    }
+
+    .nav-links {
+        gap: 17px;
+    }
+
+    .nav-links > a {
+        font-size: 12px;
+    }
+
+    .venue-grid {
+        gap: 16px;
+    }
+
+    .venue-info {
+        padding: 17px;
+    }
+
+    .mission-circle {
+        width: 250px;
+        height: 250px;
+    }
+
+}
+
+/* TABLET AND MOBILE NAVIGATION */
+
+@media (max-width: 800px) {
+
+    .navbar {
+        min-height: 72px;
+    }
+
+    .menu-toggle {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .menu-toggle span {
+        display: block;
+        width: 25px;
+        height: 2px;
+        background: var(--primary);
+        border-radius: 5px;
+        transition: all 0.2s ease;
+    }
+
+    .nav-links {
+        display: none;
+        position: absolute;
+        top: 72px;
+        left: 0;
+        width: 100%;
+        padding: 25px 5%;
+        background: var(--background);
+        border-top: 1px solid var(--border);
+        box-shadow: var(--shadow);
+        flex-direction: column;
+        align-items: stretch;
+        gap: 22px;
+    }
+
+    .nav-links.open {
+        display: flex;
+    }
+
+    .nav-links > a {
+        font-size: 14px;
+    }
+
+    .nav-actions {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 15px;
+    }
+
+    .login-link {
+        text-align: center;
+    }
+
+    .nav-register {
+        width: 100%;
+    }
+
+    .hero-content {
+        grid-template-columns: 1fr;
+    }
+
+    .hero-text {
+        text-align: center;
+    }
+
+    .hero-text h1,
+    .hero-description {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .hero-buttons,
+    .hero-note {
+        justify-content: center;
+    }
+
+    .hero-visual {
+        max-width: 540px;
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    .hero-image-wrapper {
+        height: 430px;
+    }
+
+    .venue-search {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .search-button {
+        grid-column: 1 / -1;
+        width: 100%;
+    }
+
+    .venue-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .mission-container {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .mission-content p {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .mission-circle {
+        width: 230px;
+        height: 230px;
+    }
+
+    .cta-container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+}
+
+/* MOBILE PHONES */
+
+@media (max-width: 550px) {
+
+    .container {
+        width: 90%;
+    }
+
+    .hero-section {
+        padding: 60px 0 75px;
+    }
+
+    .hero-text h1 {
+        font-size: 40px;
+        letter-spacing: -2px;
+    }
+
+    .hero-description {
+        font-size: 14px;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .hero-buttons .btn {
+        width: 100%;
+    }
+
+    .hero-image-wrapper {
+        height: 340px;
+    }
+
+    .floating-card {
+        padding: 10px 12px;
+    }
+
+    .floating-card-top {
+        left: -8px;
+        top: 70px;
+    }
+
+    .floating-card-bottom {
+        right: -8px;
+        bottom: 40px;
+    }
+
+    .floating-card strong {
+        font-size: 10px;
+    }
+
+    .floating-card small {
+        font-size: 9px;
+    }
+
+    .search-section {
+        margin-top: -20px;
+    }
+
+    .search-panel {
+        padding: 23px 18px;
+    }
+
+    .search-heading h2 {
+        font-size: 21px;
+    }
+
+    .venue-search {
+        grid-template-columns: 1fr;
+    }
+
+    .search-button {
+        grid-column: auto;
+    }
+
+    .venue-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .venue-image {
+        height: 220px;
+    }
+
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .steps-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .section-heading h2,
+    .centered-heading h2 {
+        font-size: 28px;
+    }
+
+    .mission-content h2 {
+        font-size: 30px;
+    }
+
+    .mission-circle {
+        width: 210px;
+        height: 210px;
+    }
+
+    .mission-circle span {
+        font-size: 17px;
+    }
+
+    .cta-container h2 {
+        font-size: 28px;
+    }
+
+    .cta-container .btn {
+        width: 100%;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+}
+
+/* REDUCED MOTION ACCESSIBILITY */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+
+}
