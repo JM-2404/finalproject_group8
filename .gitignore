@@ -1,0 +1,12 @@
+# Local secrets - never commit real database credentials
+config/env.php
+
+# User uploads (keep the folder, not the files)
+uploads/venues/*
+!uploads/venues/.gitkeep
+
+# OS / editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
