@@ -1,80 +1,39 @@
 
 <?php
+/**
+ * AccessAble — User Favourites
+ * Displays the logged-in user's saved venues from the database.
+ */
 
-session_start();
+// Protect this page and load the shared database functions.
+require_once __DIR__ . '/includes/auth-check.php';
 
-// Temporary demonstration data
-if (!isset($_SESSION['favourites'])) {
-    $_SESSION['favourites'] = [
-        [
-            "id" => 1,
-            "name" => "Main University Building",
-            "location" => "Ashesi University",
-            "score" => 85
-        ],
-        [
-            "id" => 2,
-            "name" => "Library",
-            "location" => "Ashesi University",
-            "score" => 90
-        ],
-        [
-            "id" => 3,
-            "name" => "Student Centre",
-            "location" => "Ashesi University",
-            "score" => 75
-        ]
-    ];
-}
+// Get the logged-in user's ID.
+$userId = currentUserId();
 
-// Remove a favourite
-if ($_SERVER['REQUEST_METHOD'] === 'POST'
-    && isset($_POST['remove_id'])) {
+// Retrieve this user's saved venues from the database.
+$favourites = getUserFavourites($userId);
 
-    $removeId = (int) $_POST['remove_id'];
+// Configure the shared page header.
+$pageTitle = 'My Favourites | AccessAble';
+$pageStyles = ['css/favourites.css'];
 
-    $_SESSION['favourites'] = array_values(
-        array_filter(
-            $_SESSION['favourites'],
-            fn($venue) => $venue['id'] !== $removeId
-        )
-    );
-
-    header("Location: favourites.php");
-    exit;
-}
-
-$favourites = $_SESSION['favourites'];
-
+// Load the shared header and navigation.
+include __DIR__ . '/includes/header.php';
+include __DIR__ . '/includes/navigation.php';
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>My Favourites | AccessAble</title>
-
-    <link rel="stylesheet" href="css/favourites.css">
-</head>
-
-<body>
-
-<main class="favourites-page">
+<main id="main-content" class="favourites-page">
 
     <header class="favourites-header">
-
+        <p class="eyebrow">YOUR SAVED PLACES</p>
         <h1>My Favourite Venues</h1>
-
-        <p>
-            Keep track of places you want to visit
-            around Ashesi University.
-        </p>
-
+        <p>Keep track of places you want to visit around Ashesi University.</p>
     </header>
 
+    <?php displayFlash(); ?>
+
+    <!-- Search field for filtering saved venues. -->
     <input
         type="search"
         id="favourite-search"
@@ -87,9 +46,11 @@ $favourites = $_SESSION['favourites'];
 
         <?php if (empty($favourites)): ?>
 
+            <!-- Show a helpful message when the user has no saved venues. -->
             <div class="empty-favourites">
                 <h2>No favourites yet</h2>
-                <p>You haven't saved any venues.</p>
+                <p>You haven't saved any venues. Explore Ashesi and save places you like!</p>
+                <a href="explore.php" class="btn btn-primary">Explore venues</a>
             </div>
 
         <?php else: ?>
@@ -98,34 +59,51 @@ $favourites = $_SESSION['favourites'];
 
                 <article class="favourite-card">
 
-                    <h2>
-                        <?= htmlspecialchars($venue['name']); ?>
-                    </h2>
+                    <div class="favourite-card-content">
 
-                    <p>
-                        <?= htmlspecialchars($venue['location']); ?>
-                    </p>
+                        <p class="favourite-category">
+                            <?= e($venue['category_name'] ?? 'Campus venue') ?>
+                        </p>
 
-                    <div class="favourite-score">
-                        Accessibility score:
-                        <?= $venue['score']; ?>/100
+                        <h2>
+                            <?= e($venue['name']) ?>
+                        </h2>
+
+                        <p class="favourite-location">
+                            <?= e($venue['address']) ?>,
+                            <?= e($venue['city']) ?>
+                        </p>
+
+                        <div class="favourite-score">
+                            Accessibility score:
+                            <strong>
+                                <?= (int) $venue['accessibility_score'] ?>/100
+                            </strong>
+                        </div>
+
+                        <?php if ($venue['avg_rating'] !== null): ?>
+                            <p class="favourite-rating">
+                                Average rating:
+                                <?= e($venue['avg_rating']) ?>/5
+                            </p>
+                        <?php endif; ?>
+
                     </div>
 
-                    <form method="POST">
+                    <!-- Remove this venue from the logged-in user's favourites. -->
+                    <form
+                        action="actions/favourite-process.php"
+                        method="POST"
+                        class="remove-favourite-form"
+                    >
+                        <?= csrfField() ?>
 
-                        <input
-                            type="hidden"
-                            name="remove_id"
-                            value="<?= $venue['id']; ?>"
-                        >
+                        <input type="hidden" name="action" value="remove">
+                        <input type="hidden" name="venue_id" value="<?= (int) $venue['id'] ?>">
 
-                        <button
-                            type="submit"
-                            class="remove-favourite"
-                        >
+                        <button type="submit" class="remove-favourite">
                             Remove from favourites
                         </button>
-
                     </form>
 
                 </article>
@@ -138,7 +116,7 @@ $favourites = $_SESSION['favourites'];
 
 </main>
 
-<script src="js/favourites.js"></script>
+<!-- Load the search functionality. -->
+<script src="js/favourites.js" defer></script>
 
-</body>
-</html>
+<?php include __DIR__ . '/includes/footer.php'; ?>

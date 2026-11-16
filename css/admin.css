@@ -1,38 +1,58 @@
 
-/* ACCESSABLE - ADMIN PANEL */
+/* =========================================================
+   ACCESSABLE - ADMIN PANEL
+   Main styling for the administrator dashboard and pages.
+   ========================================================= */
 
+
+/* =========================================================
+   1. GLOBAL STYLES
+   ========================================================= */
+
+/* Apply consistent sizing and remove default browser spacing. */
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
+/* Set the default font and page colours. */
 body {
     font-family: 'DM Sans', sans-serif;
     background: #F8F7F2;
     color: #202B27;
 }
 
+/* =========================================================
+   2. ADMIN LAYOUT
+   ========================================================= */
+
+/* Create a two-column layout for the sidebar and main content. */
 .admin-layout {
     display: grid;
     grid-template-columns: 250px minmax(0, 1fr);
     min-height: 100vh;
 }
 
-/* Sidebar */
+/* =========================================================
+   3. SIDEBAR
+   ========================================================= */
 
+/* Style the dark green administrator sidebar. */
 .admin-sidebar {
     background: #153D35;
     color: #FFFFFF;
     padding: 32px 22px;
 }
 
+/* Style the AccessAble heading in the sidebar. */
 .admin-sidebar h2 {
     font-family: 'Manrope', sans-serif;
     font-size: 1.6rem;
     margin-bottom: 48px;
 }
 
+/* Style the administration section label. */
 .sidebar-label {
     color: #B9D1C1;
     font-size: 0.75rem;
@@ -41,36 +61,46 @@ body {
     margin-bottom: 18px;
 }
 
+/* Arrange sidebar navigation links vertically. */
 .admin-sidebar nav {
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
 
+/* Style individual sidebar links. */
 .admin-sidebar nav a {
+    display: block;
     color: #E8F0E9;
     text-decoration: none;
     padding: 13px;
     border-radius: 8px;
     font-size: 0.92rem;
+    transition: background 0.2s ease;
 }
 
+/* Highlight the active link and links being hovered over. */
 .admin-sidebar nav a:hover,
 .admin-sidebar nav a.active {
     background: #28584B;
 }
 
-/* Main content */
+/* =========================================================
+   4. MAIN CONTENT
+   ========================================================= */
 
+/* Style the main content area. */
 .admin-main {
     padding: 48px 36px;
     min-width: 0;
 }
 
+/* Add spacing below the page heading. */
 .admin-header {
     margin-bottom: 36px;
 }
 
+/* Style small uppercase section labels. */
 .eyebrow {
     color: #68766F;
     font-size: 0.8rem;
@@ -79,6 +109,7 @@ body {
     margin-bottom: 12px;
 }
 
+/* Style the main page heading. */
 .admin-header h1 {
     font-family: 'Manrope', sans-serif;
     color: #153D35;
@@ -86,13 +117,17 @@ body {
     margin-bottom: 10px;
 }
 
+/* Style the descriptive text below the heading. */
 .admin-header p:last-child {
     color: #68766F;
     line-height: 1.6;
 }
 
-/* Statistics */
+/* =========================================================
+   5. STATISTICS CARDS
+   ========================================================= */
 
+/* Arrange statistics cards in four columns. */
 .admin-stats {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -100,6 +135,7 @@ body {
     margin-bottom: 40px;
 }
 
+/* Style each statistics card. */
 .admin-stat-card {
     background: #FFFFFF;
     padding: 24px;
@@ -107,6 +143,7 @@ body {
     border-radius: 14px;
 }
 
+/* Style the numerical value inside each card. */
 .admin-stat-card h2 {
     font-family: 'Manrope', sans-serif;
     color: #153D35;
@@ -114,13 +151,17 @@ body {
     margin-bottom: 8px;
 }
 
+/* Style the description below each number. */
 .admin-stat-card p {
     color: #68766F;
     font-size: 0.9rem;
 }
 
-/* Reports table */
+/* =========================================================
+   6. REPORTS AND TABLE SECTIONS
+   ========================================================= */
 
+/* Give tables a white card background. */
 .reports-section {
     background: #FFFFFF;
     padding: 26px;
@@ -128,22 +169,27 @@ body {
     border-radius: 14px;
 }
 
+/* Style table section headings. */
 .reports-section h2 {
     font-family: 'Manrope', sans-serif;
     color: #153D35;
     margin-bottom: 24px;
 }
 
+/* Allow tables to scroll horizontally on smaller screens. */
 .reports-table-wrapper {
+    width: 100%;
     overflow-x: auto;
 }
 
+/* Make tables use the available width. */
 .reports-section table {
     width: 100%;
     border-collapse: collapse;
     text-align: left;
 }
 
+/* Style table cells and headings. */
 .reports-section th,
 .reports-section td {
     padding: 16px 12px;
@@ -151,15 +197,23 @@ body {
     font-size: 0.9rem;
 }
 
+/* Give table headings a soft green background. */
 .reports-section th {
     color: #153D35;
     background: #E8F0E9;
+    font-weight: 700;
 }
 
+/* Style ordinary table content. */
 .reports-section td {
     color: #68766F;
 }
 
+/* =========================================================
+   7. STATUS BADGES
+   ========================================================= */
+
+/* General styling for status labels. */
 .status {
     display: inline-block;
     padding: 6px 10px;
@@ -170,37 +224,577 @@ body {
     font-weight: 700;
 }
 
-/* Responsive */
+/* =========================================================
+   8. GENERAL ADMIN BUTTONS
+   ========================================================= */
+
+/* Shared styling for buttons and button-like links. */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+/* Main dark green button. */
+.btn-primary {
+    background: #153D35;
+    color: #FFFFFF;
+    box-shadow: 0 3px 8px rgba(21, 61, 53, 0.12);
+}
+
+/* Add a subtle hover animation to primary buttons. */
+.btn-primary:hover {
+    background: #245B4E;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(21, 61, 53, 0.18);
+}
+
+/* Show a visible keyboard focus indicator. */
+.btn:focus-visible {
+    outline: 3px solid #C99B35;
+    outline-offset: 3px;
+}
+
+/* =========================================================
+   9. VENUE MANAGEMENT ACTIONS
+   ========================================================= */
+
+/* Position the Add New Venue button. */
+.venue-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin: 24px 0;
+}
+
+/* =========================================================
+   10. SEARCH AND FILTER FORM
+   ========================================================= */
+
+/* Arrange the search field, dropdown and buttons in a row. */
+.venue-filter-form {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 20px 0;
+}
+
+/* Style the search input and status dropdown. */
+.venue-filter-form input,
+.venue-filter-form select {
+    min-height: 44px;
+    padding: 10px 14px;
+    border: 1px solid #DCE5DF;
+    border-radius: 9px;
+    background: #FFFFFF;
+    color: #202B27;
+    font-family: inherit;
+    font-size: 14px;
+    outline: none;
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+/* Allow the search input to occupy available space. */
+.venue-filter-form input {
+    flex: 1;
+    min-width: 200px;
+}
+
+/* Highlight inputs when the administrator selects them. */
+.venue-filter-form input:focus,
+.venue-filter-form select:focus {
+    border-color: #153D35;
+    box-shadow: 0 0 0 3px rgba(21, 61, 53, 0.10);
+}
+
+/* Style the Search button. */
+.venue-filter-form button {
+    min-height: 44px;
+}
+
+/* Style the Clear Filters link. */
+.venue-filter-form > a {
+    color: #68766F;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+/* Add hover feedback to the Clear Filters link. */
+.venue-filter-form > a:hover {
+    color: #153D35;
+    text-decoration: underline;
+}
+
+/* =========================================================
+   11. VENUE TABLE ACTIONS
+   ========================================================= */
+
+/* Keep the status form inline with the Edit link. */
+.venue-status-form {
+    display: inline-block;
+    margin: 0;
+}
+
+/* Style the Edit link like a modern secondary button. */
+.venue-edit-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 13px;
+    margin-right: 5px;
+    border: 1px solid #DCE5DF;
+    border-radius: 8px;
+    background: #F3F6F3;
+    color: #153D35;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background 0.2s ease;
+}
+
+/* Change the Edit link background when hovered over. */
+.venue-edit-link:hover {
+    background: #E3ECE5;
+}
+
+/* Shared styling for Activate and Deactivate buttons. */
+.venue-status-form button {
+    padding: 8px 12px;
+    border: 1px solid;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+/* Style the Deactivate button in soft red. */
+.venue-status-form .deactivate-button {
+    background: #FFF3F0;
+    border-color: #F0D5D0;
+    color: #A13E32;
+}
+
+/* Add hover feedback to the Deactivate button. */
+.venue-status-form .deactivate-button:hover {
+    background: #FCE2DD;
+    transform: translateY(-1px);
+}
+
+/* Style the Activate button in soft green. */
+.venue-status-form .activate-button {
+    background: #E8F3EA;
+    border-color: #C9E3CF;
+    color: #287344;
+}
+
+/* Add hover feedback to the Activate button. */
+.venue-status-form .activate-button:hover {
+    background: #D6EBDD;
+    transform: translateY(-1px);
+}
+
+/* Show keyboard focus on venue action controls. */
+.venue-edit-link:focus-visible,
+.venue-status-form button:focus-visible {
+    outline: 3px solid #C99B35;
+    outline-offset: 3px;
+}
+
+/* =========================================================
+   12. RESPONSIVE DESIGN - TABLETS
+   ========================================================= */
 
 @media (max-width: 900px) {
+
+    /* Display statistics in two columns on tablets. */
     .admin-stats {
         grid-template-columns: repeat(2, 1fr);
     }
 }
 
+/* =========================================================
+   13. RESPONSIVE DESIGN - MOBILE DEVICES
+   ========================================================= */
+
 @media (max-width: 650px) {
+
+    /* Stack the sidebar above the main content. */
     .admin-layout {
         grid-template-columns: 1fr;
     }
 
+    /* Reduce sidebar padding. */
     .admin-sidebar {
         padding: 20px;
     }
 
+    /* Reduce spacing below the sidebar heading. */
     .admin-sidebar h2 {
         margin-bottom: 20px;
     }
 
+    /* Allow navigation links to wrap on smaller screens. */
     .admin-sidebar nav {
         flex-direction: row;
         flex-wrap: wrap;
     }
 
+    /* Reduce main content padding. */
     .admin-main {
         padding: 28px 18px;
     }
 
+    /* Display statistics in a single column. */
     .admin-stats {
         grid-template-columns: 1fr;
+    }
+
+    /* Align the Add Venue button to the left. */
+    .venue-actions {
+        justify-content: flex-start;
+    }
+
+    /* Stack search and filter controls vertically. */
+    .venue-filter-form {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    /* Make search and filter controls full width. */
+    .venue-filter-form input,
+    .venue-filter-form select,
+    .venue-filter-form button {
+        width: 100%;
+    }
+
+    /* Make table action buttons easier to tap. */
+    .venue-edit-link,
+    .venue-status-form button {
+        margin-bottom: 6px;
+    }
+}
+
+/* =========================================================
+   ADD VENUE FORM
+   ========================================================= */
+
+/* Keep the venue form at a readable width. */
+.venue-form-section {
+    max-width: 950px;
+}
+
+/* Arrange form fields in two columns. */
+.venue-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px;
+}
+
+/* Stack each label and input vertically. */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+/* Make selected fields span the entire form width. */
+.form-group.full-width {
+    grid-column: 1 / -1;
+}
+
+/* Style form labels. */
+.form-group label {
+    color: #153D35;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+/* Style text inputs, dropdowns and textareas. */
+.form-group input:not([type="checkbox"]),
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    min-height: 46px;
+    padding: 12px 14px;
+    border: 1px solid #DCE5DF;
+    border-radius: 9px;
+    background: #FFFFFF;
+    color: #202B27;
+    font: inherit;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Allow descriptions to have more vertical space. */
+.form-group textarea {
+    min-height: 130px;
+    resize: vertical;
+}
+
+/* Highlight focused form controls. */
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: #153D35;
+    box-shadow: 0 0 0 3px rgba(21, 61, 53, 0.1);
+}
+
+/* Style the file upload helper text. */
+.form-group small {
+    color: #68766F;
+    font-size: 12px;
+}
+
+/* Arrange the featured checkbox and its label. */
+.checkbox-group label {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.checkbox-group input {
+    width: 17px;
+    height: 17px;
+    accent-color: #153D35;
+}
+
+/* Align the Cancel and Save buttons. */
+.venue-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 12px;
+    margin-top: 30px;
+    padding-top: 22px;
+    border-top: 1px solid #E3EAE4;
+}
+
+/* Style the Cancel link. */
+.cancel-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 20px;
+    border: 1px solid #DCE5DF;
+    border-radius: 10px;
+    background: #FFFFFF;
+    color: #68766F;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background 0.2s ease;
+}
+
+.cancel-button:hover {
+    background: #F3F6F3;
+}
+
+/* Responsive form layout for mobile devices. */
+@media (max-width: 650px) {
+    .venue-form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-group.full-width {
+        grid-column: auto;
+    }
+
+    .venue-form-actions {
+        flex-direction: column-reverse;
+        align-items: stretch;
+    }
+
+    .venue-form-actions .btn,
+    .venue-form-actions .cancel-button {
+        width: 100%;
+    }
+}
+
+/* ============================================================
+   REVIEW AND REPORT MODERATION
+============================================================ */
+
+/* General section spacing. */
+.admin-section {
+    background: #FFFFFF;
+    padding: 25px;
+    margin: 25px 0;
+    border-radius: 12px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.04);
+}
+
+/* Section headings. */
+.admin-section h2 {
+    margin-bottom: 20px;
+    color: #263238;
+}
+
+/* Page heading. */
+.admin-page-header {
+    margin-bottom: 25px;
+}
+
+.admin-page-header h1 {
+    margin-bottom: 8px;
+}
+
+/* Table container allows horizontal scrolling on small screens. */
+.admin-table-container {
+    width: 100%;
+    overflow-x: auto;
+}
+
+/* Moderation table. */
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 850px;
+}
+
+.admin-table th,
+.admin-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #EAEAEA;
+    vertical-align: top;
+}
+
+.admin-table th {
+    background: #F7F8FA;
+    color: #455A64;
+    font-weight: 600;
+}
+
+.admin-table td p {
+    margin: 8px 0;
+    line-height: 1.5;
+    max-width: 300px;
+    overflow-wrap: anywhere;
+}
+
+.admin-table small {
+    color: #7A858C;
+}
+
+/* Review and report status labels. */
+.status-badge {
+    display: inline-block;
+    padding: 6px 11px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: capitalize;
+    white-space: nowrap;
+}
+
+.status-approved,
+.status-resolved {
+    background: #E5F5EC;
+    color: #217A45;
+}
+
+.status-pending,
+.status-open {
+    background: #FFF3D6;
+    color: #946200;
+}
+
+.status-hidden,
+.status-dismissed {
+    background: #FDE8E7;
+    color: #B42318;
+}
+
+/* Keep moderation buttons aligned. */
+.venue-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.venue-actions form {
+    margin: 0;
+}
+
+.venue-actions button {
+    border: none;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.venue-actions .activate-button {
+    background: #E5F5EC;
+    color: #217A45;
+}
+
+.venue-actions .activate-button:hover {
+    background: #CDEBD9;
+}
+
+.venue-actions .deactivate-button {
+    background: #FDE8E7;
+    color: #B42318;
+}
+
+.venue-actions .deactivate-button:hover {
+    background: #F8D0CE;
+}
+
+/* Review filter controls. */
+.admin-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.venue-filter-form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Responsive layout. */
+@media (max-width: 768px) {
+    .admin-section {
+        padding: 16px;
+    }
+
+    .admin-section-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .venue-filter-form {
+        width: 100%;
+        flex-wrap: wrap;
     }
 }
