@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . '/includes/functions.php';
+
 $pageTitle = "Explore Venues | AccessAble";
 $pageStyles = ['css/explore.css'];
 
@@ -92,7 +94,7 @@ include 'includes/navigation.php';
 
 </main>
 
-<script src="js/mock-venues.js"></script>
+<script>const venues = <?= json_encode(getVenuesForExplore()) ?>;</script>
 <script src="js/filters.js"></script>
 <script src="js/search.js"></script>
 
