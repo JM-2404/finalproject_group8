@@ -1,0 +1,690 @@
+/* =====================================================================
+   AccessAble — Authentication & Review pages
+   Owner: Member 4
+   Used by: login.php, register.php, submit-review.php
+
+   Colours inherit the team palette from css/style.css when it defines
+   any of the common variable names below, and fall back to accessible
+   defaults (all text colours meet WCAG AA 4.5:1 on their backgrounds).
+   Everything is scoped to .auth-page / .review-page so it cannot
+   override other members' styles.
+   ===================================================================== */
+
+.auth-page,
+.review-page {
+    /* Team palette from css/style.css (fallbacks match it exactly) */
+    --auth-primary:       var(--primary, #153D35);
+    --auth-primary-dark:  var(--primary-light, #24594D);
+    --auth-text:          var(--text, #202B27);
+    --auth-muted:         var(--muted, #68766F);   /* 4.8:1 on white */
+    --auth-bg:            var(--background, #F8F7F2);
+    --auth-surface:       var(--white, #FFFFFF);
+    --auth-border:        var(--border, #E2E7E2);  /* card outlines only */
+    --auth-input-border:  #7A8780;                 /* 3.7:1 — form controls need 3:1 */
+    --auth-sage:          var(--sage, #E8F0E9);
+    --auth-focus:         var(--gold, #F4B942);
+    --auth-star:          #B88621;                 /* brand gold, darkened to 3.2:1 */
+    --auth-radius:        var(--radius, 18px);
+    --auth-shadow:        var(--shadow, 0 12px 35px rgba(21, 61, 53, 0.08));
+    --auth-success:       #1E7A46;
+    --auth-success-bg:    #E6F4EC;
+    --auth-error:         #B42318;
+    --auth-error-bg:      #FDECEA;
+    --auth-warning:       #8A5300;
+    --auth-warning-bg:    #FFF4E0;
+    --auth-info:          var(--primary, #153D35);
+    --auth-info-bg:       var(--sage, #E8F0E9);
+
+    color: var(--auth-text);
+    background: var(--auth-bg);
+    padding: clamp(1.5rem, 4vw, 3.5rem) 1rem;
+    min-height: 70vh;
+}
+
+/* ---------- Layout ---------- */
+.auth-page {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.auth-page *,
+.auth-page *::before,
+.auth-page *::after,
+.review-page *,
+.review-page *::before,
+.review-page *::after {
+    box-sizing: border-box;
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 460px;
+    background: var(--auth-surface);
+    border: 1px solid var(--auth-border);
+    border-radius: var(--auth-radius);
+    box-shadow: var(--auth-shadow);
+    padding: clamp(1.5rem, 4vw, 2.5rem);
+}
+
+.auth-card-wide {
+    max-width: 640px;
+}
+
+.auth-header {
+    margin-bottom: 1.5rem;
+}
+
+.auth-header h1 {
+    font-size: clamp(1.6rem, 3vw, 2.1rem);
+    letter-spacing: -1px;
+    margin: 0 0 0.4rem;
+    color: var(--auth-primary);
+}
+
+.auth-subtitle {
+    margin: 0;
+    color: var(--auth-muted);
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.auth-switch {
+    margin: 1.5rem 0 0;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--auth-border);
+    text-align: center;
+    color: var(--auth-muted);
+}
+
+.auth-switch a,
+.breadcrumb a {
+    color: var(--auth-primary);
+    font-weight: 700;
+    text-decoration: underline; /* style.css removes underlines site-wide */
+    text-underline-offset: 3px;
+}
+
+.auth-switch a:hover,
+.breadcrumb a:hover {
+    color: var(--auth-primary-dark);
+}
+
+/* ---------- Form controls ---------- */
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.15rem;
+}
+
+.auth-form .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin: 0;
+}
+
+.auth-form .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.auth-form label,
+.auth-form legend {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--auth-text);
+}
+
+.auth-form input[type="text"],
+.auth-form input[type="email"],
+.auth-form input[type="password"],
+.auth-form input[type="date"],
+.auth-form textarea {
+    width: 100%;
+    box-sizing: border-box;
+    font: inherit;
+    font-size: 1rem;
+    color: var(--auth-text);
+    background: var(--auth-surface);
+    border: 2px solid var(--auth-input-border);
+    border-radius: 9px;
+    padding: 0.7rem 0.85rem;
+    min-height: 48px; /* comfortable touch target */
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.auth-form textarea {
+    resize: vertical;
+    min-height: 160px;
+    line-height: 1.5;
+}
+
+.auth-form input:hover,
+.auth-form textarea:hover {
+    border-color: var(--auth-muted);
+}
+
+.auth-form input:focus,
+.auth-form textarea:focus {
+    outline: none;
+    border-color: var(--auth-primary);
+    box-shadow: 0 0 0 3px var(--auth-focus);
+}
+
+.auth-form .has-error input,
+.auth-form .has-error textarea {
+    border-color: var(--auth-error);
+}
+
+.field-hint {
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--auth-muted);
+}
+
+.field-error {
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--auth-error);
+}
+
+.field-error::before {
+    content: "⚠ ";
+}
+
+.required {
+    color: var(--auth-error);
+}
+
+.optional {
+    font-weight: 400;
+    color: var(--auth-muted);
+    font-size: 0.875rem;
+}
+
+/* Password show/hide */
+.password-wrapper {
+    position: relative;
+}
+
+.password-wrapper input {
+    padding-right: 4.75rem !important;
+}
+
+.toggle-password {
+    position: absolute;
+    top: 50%;
+    right: 0.4rem;
+    transform: translateY(-50%);
+    min-height: 36px;
+    padding: 0 0.75rem;
+    font: inherit;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--auth-primary);
+    background: transparent;
+    border: 0;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.toggle-password:hover {
+    background: var(--auth-info-bg);
+}
+
+/* Password strength meter */
+.password-strength {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    min-height: 1.2rem;
+}
+
+.strength-bar {
+    flex: 1;
+    height: 6px;
+    background: var(--auth-border);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.strength-fill {
+    display: block;
+    height: 100%;
+    width: 0;
+    background: var(--auth-error);
+    transition: width 0.25s ease, background-color 0.25s ease;
+}
+
+.strength-text {
+    font-size: 0.8rem;
+    font-weight: 600;
+    min-width: 4.5rem;
+    text-align: right;
+    color: var(--auth-muted);
+}
+
+.password-strength[data-strength="1"] .strength-fill { width: 25%;  background: var(--auth-error); }
+.password-strength[data-strength="2"] .strength-fill { width: 50%;  background: var(--auth-warning); }
+.password-strength[data-strength="3"] .strength-fill { width: 75%;  background: var(--auth-info); }
+.password-strength[data-strength="4"] .strength-fill { width: 100%; background: var(--auth-success); }
+
+/* Accessibility needs checkboxes */
+.needs-fieldset {
+    border: 1px solid var(--auth-border);
+    border-radius: 10px;
+    padding: 1rem 1.1rem 1.15rem;
+    margin: 0;
+}
+
+.needs-fieldset legend {
+    padding: 0 0.4rem;
+}
+
+.needs-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+}
+
+.need-option,
+.check-label {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-weight: 500 !important;
+    cursor: pointer;
+}
+
+.need-option {
+    padding: 0.55rem 0.7rem;
+    border: 2px solid var(--auth-input-border);
+    border-radius: 8px;
+    min-height: 44px;
+    transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.need-option:hover {
+    border-color: var(--auth-primary);
+}
+
+.need-option:has(input:checked) {
+    border-color: var(--auth-primary);
+    background: var(--auth-info-bg);
+}
+
+.auth-form input[type="checkbox"] {
+    width: 1.2rem;
+    height: 1.2rem;
+    flex-shrink: 0;
+    accent-color: var(--auth-primary);
+}
+
+.check-label {
+    align-items: flex-start;
+    line-height: 1.4;
+}
+
+.check-label input {
+    margin-top: 0.1rem;
+}
+
+/* ---------- Buttons ----------
+   Colours, radius and hover come from .btn / .btn-primary / .btn-outline
+   in css/style.css. These rules only add a comfortable touch target. */
+.auth-page .btn,
+.review-page .btn {
+    min-height: 48px;
+    font-size: 15px;
+}
+
+.auth-page .btn-primary[disabled],
+.review-page .btn-primary[disabled] {
+    opacity: 0.65;
+    cursor: wait;
+    transform: none;
+}
+
+.btn-block {
+    width: 100%;
+    margin-top: 0.4rem;
+}
+
+.btn-link {
+    font: inherit;
+    background: none;
+    border: 0;
+    padding: 0.4rem 0;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.btn-danger-link {
+    color: var(--auth-error);
+    font-weight: 600;
+}
+
+.auth-page a:focus-visible,
+.auth-page button:focus-visible,
+.review-page a:focus-visible,
+.review-page button:focus-visible,
+.need-option:has(input:focus-visible),
+.check-label:has(input:focus-visible) {
+    outline: 3px solid var(--auth-focus);
+    outline-offset: 2px;
+}
+
+/* ---------- Flash / alert messages ---------- */
+.flash {
+    padding: 0.85rem 1rem;
+    border-radius: 8px;
+    border-left: 5px solid currentColor;
+    margin-bottom: 1.25rem;
+    font-weight: 500;
+    line-height: 1.45;
+}
+
+.flash-success { color: var(--auth-success); background: var(--auth-success-bg); }
+.flash-error   { color: var(--auth-error);   background: var(--auth-error-bg); }
+.flash-warning { color: var(--auth-warning); background: var(--auth-warning-bg); }
+.flash-info    { color: var(--auth-info);    background: var(--auth-info-bg); }
+
+/* ---------- Review page ---------- */
+.review-page .breadcrumb {
+    max-width: 1080px;
+    margin: 0 auto 1.25rem;
+}
+
+.breadcrumb ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: 0.9rem;
+    color: var(--auth-muted);
+}
+
+.breadcrumb li + li::before {
+    content: "›";
+    margin-right: 0.4rem;
+    color: var(--auth-muted);
+}
+
+.review-layout {
+    display: grid;
+    grid-template-columns: 300px minmax(0, 1fr);
+    gap: 1.75rem;
+    max-width: 1080px;
+    margin: 0 auto;
+    align-items: start;
+}
+
+.review-card {
+    max-width: none;
+}
+
+.review-venue-summary {
+    background: var(--auth-surface);
+    border: 1px solid var(--auth-border);
+    border-radius: var(--auth-radius);
+    padding: 1.25rem;
+    position: sticky;
+    top: 1.5rem;
+}
+
+.review-venue-image {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+.review-venue-name {
+    font-family: var(--font-heading, inherit);
+    color: var(--auth-primary);
+    font-size: 1.25rem;
+    margin: 0 0 0.25rem;
+}
+
+.review-venue-meta {
+    margin: 0 0 1rem;
+    color: var(--auth-muted);
+}
+
+.review-venue-score {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.25rem 0.4rem;
+    padding: 0.85rem 1rem;
+    background: var(--auth-info-bg);
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+.score-value {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--auth-primary);
+    line-height: 1;
+}
+
+.score-max {
+    color: var(--auth-primary-dark);
+    font-weight: 600;
+}
+
+.score-label {
+    flex-basis: 100%;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.review-feature-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.4rem;
+    font-size: 0.92rem;
+}
+
+.review-feature-list li {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+}
+
+.feature-status-icon {
+    display: inline-grid;
+    place-items: center;
+    width: 1.4rem;
+    height: 1.4rem;
+    border-radius: 50%;
+    font-size: 0.8rem;
+    font-weight: 800;
+    flex-shrink: 0;
+}
+
+.feature-available .feature-status-icon   { background: var(--auth-success-bg); color: var(--auth-success); }
+.feature-unavailable .feature-status-icon { background: var(--auth-error-bg);   color: var(--auth-error); }
+.feature-unknown .feature-status-icon     { background: #EEF0EE;                color: var(--auth-muted); }
+.feature-unknown                          { color: var(--auth-muted); }
+
+/* Star rating (radio buttons in reverse order + row-reverse) */
+.rating-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.rating-fieldset {
+    border: 1px solid var(--auth-border);
+    border-radius: 10px;
+    padding: 0.9rem 1rem 1rem;
+    margin: 0;
+}
+
+.rating-fieldset.has-error {
+    border-color: var(--auth-error);
+}
+
+.rating-fieldset legend {
+    padding: 0 0.35rem;
+}
+
+.star-rating {
+    display: inline-flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    gap: 0.15rem;
+    margin-top: 0.5rem;
+}
+
+.star-rating input {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+}
+
+.star-rating label {
+    font-size: 2.1rem;
+    line-height: 1;
+    color: var(--auth-input-border);
+    cursor: pointer;
+    padding: 0.1rem;
+    border-radius: 6px;
+    transition: color 0.1s ease, transform 0.1s ease;
+}
+
+.star-rating input:checked ~ label,
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+    color: var(--auth-star);
+}
+
+.star-rating label:hover {
+    transform: scale(1.12);
+}
+
+.star-rating input:focus-visible + label {
+    outline: 3px solid var(--auth-focus);
+    outline-offset: 1px;
+}
+
+.rating-text {
+    margin: 0.35rem 0 0;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--auth-muted);
+}
+
+.char-counter {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--auth-muted);
+    text-align: right;
+}
+
+.char-counter.is-short,
+.char-counter.is-over {
+    color: var(--auth-error);
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+}
+
+.delete-review-form {
+    margin-top: 1.25rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--auth-border);
+    text-align: right;
+}
+
+/* Read-only star display produced by renderStars() in functions.php */
+.stars {
+    display: inline-flex;
+    gap: 0.05rem;
+    color: #7A8780;
+}
+
+.stars .star-filled {
+    color: #B88621;
+}
+
+/* Screen-reader-only text (also usable site-wide) */
+.visually-hidden {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 860px) {
+    .review-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .review-venue-summary {
+        position: static;
+    }
+
+    .review-feature-list {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 560px) {
+    .auth-form .form-row,
+    .rating-row,
+    .needs-grid,
+    .review-feature-list {
+        grid-template-columns: 1fr;
+    }
+
+    .form-actions {
+        flex-direction: column-reverse;
+    }
+
+    .form-actions .btn {
+        width: 100%;
+    }
+}
+
+/* ---------- User preferences ---------- */
+@media (prefers-reduced-motion: reduce) {
+    .auth-page *,
+    .review-page * {
+        transition: none !important;
+        transform: none !important;
+    }
+}
+
+@media (forced-colors: active) {
+    .star-rating input:checked ~ label {
+        color: Highlight;
+    }
+
+    .strength-fill {
+        background: Highlight !important;
+    }
+}
