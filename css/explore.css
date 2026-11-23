@@ -269,3 +269,157 @@
         transform: none;
     }
 }
+
+/* ===== Category cards (first screen) ===== */
+
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.category-card {
+    display: block;
+    padding: 24px;
+    background: #FFFFFF;
+    border: 1px solid #E3EAE4;
+    border-top: 4px solid #153D35;
+    border-radius: 14px;
+    text-decoration: none;
+    color: #202B27;
+    box-shadow: 0 4px 14px rgba(21, 61, 53, 0.05);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.category-card:hover,
+.category-card:focus-visible {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 26px rgba(21, 61, 53, 0.12);
+}
+
+.category-card h2 { margin: 0 0 8px; color: #153D35; font-size: 1.2rem; }
+.category-card p  { margin: 0 0 12px; color: #68766F; font-size: 0.9rem; }
+.category-card span { font-weight: 700; color: #153D35; font-size: 0.9rem; }
+
+/* ===== University cards (second screen) ===== */
+
+.uni-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));   /* two cards side by side */
+    gap: 24px;
+    margin-top: 28px;
+}
+
+.uni-card {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    padding: 28px;
+    overflow: hidden;
+    background: #FFFFFF;
+    border: 1px solid #E3EAE4;
+    border-radius: 20px;
+    text-decoration: none;
+    color: #202B27;
+    box-shadow: 0 6px 20px rgba(21, 61, 53, 0.06);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+/* Soft decorative circle in the corner; it grows on hover */
+.uni-card::before {
+    content: "";
+    position: absolute;
+    top: -60px;
+    right: -60px;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background: #E8F0E9;
+    transition: transform 0.4s ease;
+}
+
+.uni-card:nth-child(even)::before { background: #FBF1DA; }
+
+/* Keep the content above the decorative circle */
+.uni-badge, .uni-body, .uni-arrow { position: relative; z-index: 1; }
+
+.uni-badge {
+    flex: 0 0 auto;
+    display: grid;
+    place-items: center;
+    width: 84px;
+    height: 84px;
+    border-radius: 22px;
+    background: linear-gradient(135deg, #153D35, #2A6B5C);
+    color: #FFFFFF;
+    font-family: 'Manrope', sans-serif;
+    font-size: 1.7rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+/* Second card gets a gold badge (dark text keeps good contrast) */
+.uni-card:nth-child(even) .uni-badge {
+    background: linear-gradient(135deg, #F4B942, #E0A93A);
+    color: #153D35;
+}
+
+.uni-body { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+
+.uni-name {
+    font-family: 'Manrope', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: #153D35;
+    line-height: 1.25;
+}
+
+.uni-place { color: #68766F; font-size: 0.95rem; }
+
+.uni-count {
+    align-self: flex-start;
+    margin-top: 6px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: #E8F0E9;
+    color: #153D35;
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.uni-arrow {
+    margin-left: auto;
+    font-size: 1.8rem;
+    color: #153D35;
+    transition: transform 0.25s ease;
+}
+
+/* Hover and keyboard focus: lift, shadow, bigger circle, sliding arrow */
+.uni-card:hover,
+.uni-card:focus-visible {
+    transform: translateY(-6px);
+    border-color: #A8C2AE;
+    box-shadow: 0 16px 36px rgba(21, 61, 53, 0.16);
+}
+
+.uni-card:hover::before,
+.uni-card:focus-visible::before { transform: scale(1.5); }
+
+.uni-card:hover .uni-arrow,
+.uni-card:focus-visible .uni-arrow { transform: translateX(8px); }
+
+.uni-card:focus-visible { outline: 3px solid #F4B942; outline-offset: 3px; }
+
+/* Phones: stack the two cards */
+@media (max-width: 800px) {
+    .uni-grid { grid-template-columns: 1fr; }
+    .uni-card { padding: 22px; }
+    .uni-badge { width: 64px; height: 64px; font-size: 1.3rem; }
+}
+
+/* Respect users who turn off animations */
+@media (prefers-reduced-motion: reduce) {
+    .category-card, .uni-card, .uni-card::before, .uni-arrow { transition: none; }
+    .category-card:hover, .uni-card:hover { transform: none; }
+}
