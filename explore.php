@@ -71,6 +71,8 @@ if ($group === '') {
 }
 
 // Venues to send to JavaScript (list view only).
+// Each venue keeps its three-state feature statuses
+// (available / unavailable / unknown); filters.js reads them.
 $venuesForJs = [];
 if ($view === 'list') {
     foreach ($allVenues as $v) {
@@ -81,8 +83,6 @@ if ($view === 'list') {
         if ($group === 'universities' && $v['parentId'] !== $parentId) {
             continue;
         }
-        // TEMPORARY: true only if 'available', until the three-state step.
-        $v['features'] = array_map(fn($s) => $s === 'available', $v['features']);
         $venuesForJs[] = $v;
     }
 }
@@ -137,7 +137,7 @@ include 'includes/navigation.php';
     <h1>Universities</h1>
     <p>Choose a university to see the buildings and facilities inside it.</p>
 
-       <div class="uni-grid">
+    <div class="uni-grid">
         <?php foreach ($universities as $u): ?>
             <a class="uni-card"
                href="explore.php?group=universities&amp;parent=<?= (int) $u['id'] ?>">
@@ -161,6 +161,7 @@ include 'includes/navigation.php';
     <p><a href="<?= $backUrl ?>">&larr; <?= htmlspecialchars($backText) ?></a></p>
     <h1><?= htmlspecialchars($heading) ?></h1>
     <p><?= htmlspecialchars($blurb) ?></p>
+        <p class="demo-note">Accessibility details shown here are demonstration data for this prototype and have not been verified by the venues.</p>
 
     <section class="search-bar">
         <label for="search-input">Search venues</label>
@@ -171,6 +172,15 @@ include 'includes/navigation.php';
             <option value="score">Accessibility score</option>
             <option value="rating">Rating</option>
             <option value="name">A to Z</option>
+        </select>
+
+        <!-- Show only one outcome (works once the user ticks a feature) -->
+                 <label for="outcome-filter">Show</label>
+        <select id="outcome-filter">
+            <option value="all">All venues</option>
+            <option value="met">Meets your needs</option>
+            <option value="unverified">Not yet verified</option>
+            <option value="not-met">Does not meet your needs</option>
         </select>
     </section>
 
@@ -198,7 +208,7 @@ include 'includes/navigation.php';
         // characters in venue text from breaking out of the script tag.
         const venues = <?= json_encode($venuesForJs, JSON_HEX_TAG | JSON_HEX_AMP) ?>;
     </script>
-    <!-- Order matters: filters.js first, because search.js uses its function -->
+    <!-- Order matters: filters.js first, because search.js uses its functions -->
     <script src="js/filters.js"></script>
     <script src="js/search.js"></script>
 

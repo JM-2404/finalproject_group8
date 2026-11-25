@@ -1,65 +1,132 @@
+/**
+ * SEARCH, SORT AND DISPLAY (Member 2)
+ * Uses the "venues" array that explore.php writes into the page
+ * and the functions in filters.js.
+ */
+
 const venueList = document.getElementById("venue-list");
 const searchInput = document.getElementById("search-input");
 const resultCount = document.getElementById("result-count");
 
-// Show a list of venues as cards
-function renderVenues(list) {
+// Labels for each outcome. A symbol and words are used, never colour alone.
+const OUTCOME_LABELS = {
+  "met": "\u2713 Meets your needs",
+  "unverified": "? Not yet verified",
+  "not-met": "\u2717 Does not meet your needs"
+};
+
+// Escape text before putting it in HTML, so venue names can't inject code (XSS).
+function escapeHtml(text) {
+  const div = document.createElement("div");
+  div.textContent = text == null ? "" : String(text);
+  return div.innerHTML;
+}
+
+// Draw the venue cards.
+function renderVenues(items) {
   venueList.innerHTML = "";
 
-  if (list.length === 0) {
-    venueList.innerHTML = "<p>No venues found.</p>";
+  if (items.length === 0) {
+    venueList.innerHTML = "<p>No venues match your search.</p>";
   }
 
-    list.forEach(function (v) {
+  items.forEach(function (item) {
+    const v = item.venue;
+    const m = item.match;
+
     const card = document.createElement("article");
     card.className = "venue-card";
-    card.innerHTML =
-      "<h3>" + v.name + "</h3>" +
-      "<p>" + v.parentVenue + "</p>" +
-      "<p>" + v.location + " | " + v.category + "</p>" +
-      "<p>Score: " + v.score + "/100 | Rating: " + v.rating + "</p>";
+
+    let html = "<h3>" + escapeHtml(v.name) + "</h3>";
+    if (v.parentVenue) {
+      html += "<p>" + escapeHtml(v.parentVenue) + "</p>";
+    }
+    html += "<p>" + escapeHtml(v.location) + " | " + escapeHtml(v.category) + "</p>";
+
+    // Outcome badge and counts, only when the user ticked something.
+    if (m.outcome !== "none") {
+      html += '<p class="match-badge match-' + m.outcome + '">' +
+              OUTCOME_LABELS[m.outcome] + "</p>";
+      html += '<p class="match-counts">' + m.met + " met, " +
+              m.missing.length + " missing, " + m.unknown.length + " not verified</p>";
+
+      // Offer a request when something is not confirmed available.
+      if (m.outcome === "not-met" || m.outcome === "unverified") {
+        const ask = m.missing.concat(m.unknown);
+        html += '<p><a class="request-link" href="send-request.php?venue_id=' + v.id +
+                '&amp;features=' + encodeURIComponent(ask.join(",")) +
+                '">Send a request to this venue</a></p>';
+      }
+    }
+
+    const rating = v.rating === null ? "no reviews yet" : v.rating;
+    html += "<p>Score: " + v.score + "/100 | Rating: " + rating + "</p>";
+
+    card.innerHTML = html;
     venueList.appendChild(card);
   });
 
-  resultCount.textContent = list.length + " venues found";
+  resultCount.textContent = items.length + " venues found";
 }
 
-// Keep only venues that match the search text
+// Keep venues whose name, parent, location or category contains the search text.
 function searchVenues(text) {
   const q = text.toLowerCase().trim();
   return venues.filter(function (v) {
     return v.name.toLowerCase().includes(q) ||
-           v.location.toLowerCase().includes(q) ||
-           v.category.toLowerCase().includes(q);
+           (v.parentVenue || "").toLowerCase().includes(q) ||
+           (v.location || "").toLowerCase().includes(q) ||
+           (v.category || "").toLowerCase().includes(q);
   });
 }
-// Sort the list based on the dropdown choice
-function sortVenues(list) {
+
+// Sort by the dropdown choice. slice() copies the list so the original stays unchanged.
+function sortItems(items) {
   const choice = document.getElementById("sort-select").value;
-  const sorted = list.slice(); // copy, so the original list stays untouched
+  const sorted = items.slice();
 
   if (choice === "score") {
-    sorted.sort(function (a, b) { return b.score - a.score; });
+    sorted.sort(function (a, b) { return b.venue.score - a.venue.score; });
   } else if (choice === "rating") {
-    sorted.sort(function (a, b) { return b.rating - a.rating; });
+    sorted.sort(function (a, b) { return (b.venue.rating || 0) - (a.venue.rating || 0); });
   } else if (choice === "name") {
-    sorted.sort(function (a, b) { return a.name.localeCompare(b.name); });
+    sorted.sort(function (a, b) { return a.venue.name.localeCompare(b.venue.name); });
   }
-
   return sorted;
 }
 
-// Run search, then filters, then show the results
+// Best matches first. Array.sort is stable, so the sort above is kept within each group.
+const OUTCOME_RANK = { "met": 0, "unverified": 1, "not-met": 2, "none": 0 };
+
 function updateResults() {
-  let results = searchVenues(searchInput.value);
-  results = filterByFeatures(results);
-  results = sortVenues(results);
-  renderVenues(results);
+  const selected = getSelectedFeatures();
+  const show = document.getElementById("outcome-filter").value;
+
+  // 1. search, 2. match against the ticked features
+  let items = searchVenues(searchInput.value).map(function (v) {
+    return { venue: v, match: matchVenue(v, selected) };
+  });
+
+  // 3. "Show" dropdown (only has an effect when features are ticked)
+  if (selected.length > 0 && show !== "all") {
+    items = items.filter(function (item) { return item.match.outcome === show; });
+  }
+
+  // 4. sort, then bring the best matches to the top
+  items = sortItems(items);
+  if (selected.length > 0) {
+    items.sort(function (a, b) {
+      return OUTCOME_RANK[a.match.outcome] - OUTCOME_RANK[b.match.outcome];
+    });
+  }
+
+  renderVenues(items);
 }
 
+// Re-run whenever the user changes something.
 searchInput.addEventListener("input", updateResults);
 document.getElementById("sort-select").addEventListener("change", updateResults);
-
+document.getElementById("outcome-filter").addEventListener("change", updateResults);
 document.querySelectorAll(".filters input[type='checkbox']").forEach(function (box) {
   box.addEventListener("change", updateResults);
 });
@@ -68,8 +135,9 @@ document.getElementById("clear-filters").addEventListener("click", function () {
   document.querySelectorAll(".filters input[type='checkbox']").forEach(function (box) {
     box.checked = false;
   });
+  document.getElementById("outcome-filter").value = "all";
   updateResults();
 });
 
-// Show everything when the page loads
+// Show everything when the page loads.
 updateResults();

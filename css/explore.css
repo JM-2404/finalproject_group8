@@ -423,3 +423,137 @@
     .category-card, .uni-card, .uni-card::before, .uni-arrow { transition: none; }
     .category-card:hover, .uni-card:hover { transform: none; }
 }
+
+/* ===== Match outcome badges ===== */
+
+.match-badge {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.match-met        { background: #DFF1E4; color: #14532D; }
+.match-unverified { background: #FBF1DA; color: #6B4A00; }
+.match-not-met    { background: #F9E0DD; color: #7A1F16; }
+
+.match-counts { font-size: 0.85rem; }
+
+/* ===== Send a request ===== */
+
+.request-link {
+    display: inline-block;
+    padding: 8px 14px;
+    border: 1px solid #153D35;
+    border-radius: 9px;
+    color: #153D35;
+    font-weight: 700;
+    font-size: 0.88rem;
+    text-decoration: none;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.request-link:hover,
+.request-link:focus-visible {
+    background: #153D35;
+    color: #FFFFFF;
+}
+
+.request-form {
+    max-width: 640px;
+    padding: 28px;
+    background: #FFFFFF;
+    border: 1px solid #E3EAE4;
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(21, 61, 53, 0.05);
+}
+
+.request-form fieldset {
+    margin: 0 0 20px;
+    padding: 16px;
+    border: 1px solid #D8E2DA;
+    border-radius: 12px;
+}
+
+.request-form legend {
+    padding: 0 8px;
+    font-weight: 700;
+    color: #153D35;
+}
+
+.request-form fieldset label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.request-form textarea {
+    width: 100%;
+    margin: 8px 0 16px;
+    padding: 12px 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    border: 1px solid #D8E2DA;
+    border-radius: 9px;
+    background: #F8F7F2;
+}
+
+.request-form button {
+    padding: 12px 22px;
+    border: 0;
+    border-radius: 10px;
+    background: #153D35;
+    color: #FFFFFF;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.request-form button:hover,
+.request-form button:focus-visible { background: #0F2D27; }
+
+.request-note { font-size: 0.85rem; color: #68766F; }
+
+/* ===== My requests ===== */
+
+.request-list {
+    display: grid;
+    gap: 18px;
+    max-width: 760px;
+}
+
+.request-card {
+    padding: 22px;
+    background: #FFFFFF;
+    border: 1px solid #E3EAE4;
+    border-left: 4px solid #153D35;
+    border-radius: 14px;
+    box-shadow: 0 4px 14px rgba(21, 61, 53, 0.05);
+}
+
+.request-card h2 { margin: 0 0 6px; color: #153D35; font-size: 1.15rem; }
+.request-card p  { margin: 0 0 8px; color: #35443D; font-size: 0.92rem; line-height: 1.6; }
+.request-meta    { color: #68766F; font-size: 0.85rem; }
+
+.request-status {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: #E8F0E9;
+    color: #153D35;
+    font-weight: 700;
+    font-size: 0.85rem;
+}
+
+.demo-note {
+    display: inline-block;
+    padding: 8px 14px;
+    border-radius: 10px;
+    background: #FBF1DA;
+    color: #6B4A00;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
